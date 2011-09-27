@@ -1,14 +1,24 @@
 module GameOfLife
   class Cell
 
-    def initialize(alive)
-      self.alive = alive
+    attr_accessor :alive, :living_neighbours
+
+    def evolve
+      if @alive && @living_neighbours < 2 || @living_neighbours > 3
+        @alive = false
+      end
+
+      if !@alive && @living_neighbours == 3
+        @alive = true
+      end
     end
 
-    attr_accessor :alive, :neighbour_count
-
     def alive?
-      self.alive
+      @alive
+    end
+
+    def alive
+      @alive ||= false
     end
   end
 end

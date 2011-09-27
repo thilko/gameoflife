@@ -1,25 +1,55 @@
 require "spec_helper"
 
+
 describe :cell do
-  describe :alive? do
 
-    it "returns true if the cell is alive" do
-      cell = GameOfLife::Cell.new true
-      cell.alive?.should == true
-    end
+  before do
+    @cell = GameOfLife::Cell.new
+  end
 
-    it "returns false if the cell is dead" do
-      cell = GameOfLife::Cell.new false
-      cell.alive?.should == false
+  context "a dead cell" do
+    describe "#evolve" do
+      it "will be reborn with three living neighbours" do
+        @cell.alive = false 
+        @cell.living_neighbours = 3
+        @cell.evolve       
+
+        @cell.alive?.should == true
+      end
     end
   end
 
-  describe :neighbour_count do
-    it "returns the amount of living cells ins the heighborhood" do
-      cell = GameOfLife::Cell.new false
-      cell.neighbour_count = 2
-      cell.neighbour_count.should == 2 
+  context "a living cell" do
+    it "will stay alive with two living neighbours" do
+      @cell.alive = true
+      @cell.living_neighbours = 2
+      @cell.evolve
+
+      @cell.alive?.should == true
+    end
+
+    it "will stay alive with three living neighbours" do
+      @cell.alive = true
+      @cell.living_neighbours = 3
+      @cell.evolve
+
+      @cell.alive?.should == true
+    end
+
+    it "will die with 1 living neighbour" do
+      @cell.alive = true
+      @cell.living_neighbours = 1
+      @cell.evolve
+
+      @cell.alive?.should == false
+    end
+
+    it "will die with 4 living neighbour" do
+      @cell.alive = true
+      @cell.living_neighbours = 4
+      @cell.evolve
+
+      @cell.alive?.should == false
     end
   end
 end
-
