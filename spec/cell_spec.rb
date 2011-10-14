@@ -10,9 +10,9 @@ describe :cell do
   context "a dead cell" do
     describe "#evolve" do
       it "will be reborn with three living neighbours" do
-        @cell.alive = false 
+        @cell.alive = false
         @cell.living_neighbours = 3
-        @cell.evolve       
+        @cell.evolve
 
         @cell.alive?.should == true
       end
