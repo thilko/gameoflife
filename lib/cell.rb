@@ -1,45 +1,43 @@
-module GameOfLife
-  class Cell
+# -*- encoding : utf-8 -*-
+class Cell
 
-    attr_accessor :alive
+  def self.create_living_cell
+    new true
+  end
 
-    def evolve
-      if @alive && living_neighbours < 2 || living_neighbours > 3
-        @alive = false
-      end
+  def self.create_dead_cell
+    new false
+  end
 
-      if !@alive && living_neighbours == 3
-        @alive = true
-      end
-    end
+  def self.create_random_cell
+    new (rand(2) == 1 ? true : false)
+  end
 
-    def alive?
-      alive
-    end
+  def initialize(alive)
+    @alive = alive
+  end
 
-    def alive
-      @alive ||= false
-    end
+  def alive?
+    @alive
+  end
 
-    def increment_neighbours
-      @living_neighbours = living_neighbours + 1
-    end
+  def be_alive!
+    @alive = true
+  end
 
+  def shall_die?(living_neighbour_count)
+    living_neighbour_count < 3
+  end
 
-    def living_neighbours
-      warn @living_neighbours ||= 0
-      @living_neighbours ||= 0
-    end
+  def shall_be_alive?(living_neighbour_count)
+    true
+  end
 
-    def living_neighbours=(count)
-      @living_neighbours = count
-    end
+  def dead?
+    !@alive
+  end
 
-    def generation
-      @generation ||= Array.new(4) { Array.new(4){ GameOfLife::Cell.new } }
-    end
-
-
-
+  def die!
+    @alive = false
   end
 end
